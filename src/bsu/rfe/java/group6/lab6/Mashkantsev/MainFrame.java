@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
 @SuppressWarnings("serial")
 public class MainFrame extends JFrame {
     // Константы, задающие размер окна приложения, если оно
@@ -17,6 +18,7 @@ public class MainFrame extends JFrame {
     private static final int HEIGHT = 500;
     private JMenuItem pauseMenuItem;
     private JMenuItem resumeMenuItem;
+    private JCheckBoxMenuItem magnetMenuItem;
     // Поле, по которому прыгают мячи
     private Field field = new Field();
     // Конструктор главного окна приложения
@@ -66,6 +68,16 @@ public class MainFrame extends JFrame {
         };
         resumeMenuItem = controlMenu.add(resumeAction);
         resumeMenuItem.setEnabled(false);
+        Action magnet = new AbstractAction("Включить магнетизм") {
+            public void actionPerformed(ActionEvent event){
+                field.magnet();
+            }
+        };
+        magnetMenuItem = new JCheckBoxMenuItem(magnet);
+        // Добавить соответствующий элемент в меню
+        controlMenu.add(magnetMenuItem);
+        // Элемент по умолчанию включен (отмечен флажком)
+        magnetMenuItem.setSelected(false);
 // Добавить в центр граничной компоновки поле Field
         getContentPane().add(field, BorderLayout.CENTER);
     }
