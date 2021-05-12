@@ -43,6 +43,7 @@ public class MainFrame extends JFrame {
 // Ни один из пунктов меню не являются
 // доступными - сделать доступным "Паузу"
                     pauseMenuItem.setEnabled(true);
+                    magnetMenuItem.setEnabled(true);
                 }
             }
         };
@@ -68,9 +69,9 @@ public class MainFrame extends JFrame {
         };
         resumeMenuItem = controlMenu.add(resumeAction);
         resumeMenuItem.setEnabled(false);
-        Action magnet = new AbstractAction("Включить магнетизм") {
+        Action magnet = new AbstractAction("магнетизм") {
             public void actionPerformed(ActionEvent event){
-                field.magnet();
+                field.magnet(magnetMenuItem.isSelected());
             }
         };
         magnetMenuItem = new JCheckBoxMenuItem(magnet);
@@ -78,6 +79,7 @@ public class MainFrame extends JFrame {
         controlMenu.add(magnetMenuItem);
         // Элемент по умолчанию включен (отмечен флажком)
         magnetMenuItem.setSelected(false);
+        magnetMenuItem.setEnabled(false);
 // Добавить в центр граничной компоновки поле Field
         getContentPane().add(field, BorderLayout.CENTER);
     }

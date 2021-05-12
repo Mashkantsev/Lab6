@@ -11,6 +11,7 @@ public class BouncingBall implements Runnable {
     // Максимальная скорость, с которой может летать мяч
     private static final int MAX_SPEED = 15;
     private Field field;
+    private boolean onwall;
     private int radius;
     private Color color;
     // Текущие координаты мяча
@@ -69,23 +70,28 @@ public class BouncingBall implements Runnable {
 // Достигли левой стенки, отскакиваем право
                     speedX = -speedX;
                     x = radius;
+                    onwall = true;
                 } else
                 if (x + speedX >= field.getWidth() - radius) {
 // Достигли правой стенки, отскок влево
                     speedX = -speedX;
+                    onwall = true;
                     x=new Double(field.getWidth()-radius).intValue();
                 } else
                 if (y + speedY <= radius) {
 // Достигли верхней стенки
                     speedY = -speedY;
                     y = radius;
+                    onwall = true;
                 } else
                 if (y + speedY >= field.getHeight() - radius) {
 // Достигли нижней стенки
                     speedY = -speedY;
                     y=new Double(field.getHeight()-radius).intValue();
+                    onwall = true;
                 } else {
 // Просто смещаемся
+                    onwall = false;
                     x += speedX;
                     y += speedY;
                 }
@@ -109,4 +115,8 @@ public class BouncingBall implements Runnable {
         canvas.draw(ball);
         canvas.fill(ball);
     }
+    public boolean checkball() {
+        return onwall;
+    }
+
 }

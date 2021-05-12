@@ -12,6 +12,7 @@ import java.awt.Color;
 public class Field extends JPanel {
     // Флаг приостановленности движения
     private boolean paused;
+    private boolean magneted;
     // Динамический список скачущих мячей
     private ArrayList<BouncingBall> balls = new ArrayList<BouncingBall>(10);
     // Класс таймер отвечает за регулярную генерацию событий ActionEvent
@@ -61,8 +62,14 @@ public class Field extends JPanel {
 // Будим все ожидающие продолжения потоки
         notifyAll();
     }
-    public synchronized void magnet() {
+
+    public synchronized void magnet(boolean a) {
+        magneted = a;
+        if (!magneted && !paused) {
+            notifyAll();
+        }
     }
+
 
     // Синхронизированный метод проверки, может ли мяч двигаться
 // (не включен ли режим паузы?)
@@ -71,6 +78,9 @@ public class Field extends JPanel {
         if (paused) {
 // Если режим паузы включен, то поток, зашедший
 // внутрь данного метода, засыпает
+            wait();
+        }
+        if (magneted && ball.checkball()) {
             wait();
         }
     }
